@@ -1,16 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { YMaps, Map, Polyline, Placemark } from 'react-yandex-maps';
+import { YMaps, Map, Polyline, Placemark, Polygon } from 'react-yandex-maps';
 import { IMapData } from '../dto/IMapData';
 import mapData from '../helpers/mapData.json';
 import { Box, Paper } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 export const OilSpillsMap = (): JSX.Element => {
 	const data = mapData as unknown as IMapData;
 	const map = useRef(null);
+	const { incidents } = useSelector((state: RootState) => state);
 
 	const mapState = {
-		center: [55.751574, 37.573856],
-		zoom: 9,
+		center: incidents.currentIncidentCoordinates[0][0],
+		zoom: 10,
 		behaviors: ['default', 'scrollZoom'],
 	};
 
@@ -36,6 +39,15 @@ export const OilSpillsMap = (): JSX.Element => {
 								/>
 							),
 						)}
+						<Polygon
+							geometry={incidents.currentIncidentCoordinates}
+							options={{
+								fillColor: '#da5b5b',
+								strokeColor: '#0000FF',
+								opacity: 0.4,
+								strokeWidth: 4,
+							}}
+						/>
 					</Map>
 				</YMaps>
 			</Paper>

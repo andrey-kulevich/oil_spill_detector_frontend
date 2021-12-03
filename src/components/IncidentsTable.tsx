@@ -17,11 +17,11 @@ import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { IOilSpillIncident } from '../dto/IOilSpillIncident';
-import { useState } from 'react';
 import { dateToString } from '../helpers/utils';
-import MyLocationIcon from '@mui/icons-material/MyLocation';
 import { Button } from '@mui/material';
+import { RootState, useAppDispatch } from '../store/store';
+import { useSelector } from 'react-redux';
+import { setCurrentIncidentCoordinates } from '../store/incidents';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 	if (b[orderBy] < a[orderBy]) {
@@ -211,155 +211,8 @@ export default function IncidentsTable(): JSX.Element {
 	const [orderBy, setOrderBy] = React.useState<string>('calories');
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
-	const [data, setData] = useState<IOilSpillIncident[]>([
-		{
-			id: 1,
-			firstDetectionDate: new Date(2021, 11, 1),
-			lastUpdate: new Date(2021, 11, 2),
-			coordinates: [
-				[58.298666, 57.92472],
-				[59.308767, 57.814865],
-				[58.370757, 58.731094],
-				[58.430482, 58.759933],
-			],
-			danger: {
-				dangerClass: 'medium',
-				spillArea: '...',
-				dangerFactors: [{ id: 1, value: 'Близость от водных объектов' }],
-			},
-			status: 'unapproved',
-			pipeOwner: 'Big Daddy',
-			objectFrom: 'aaaaa',
-			objectTo: 'bbbbb',
-			spillPhoto: '',
-		},
-		{
-			id: 2,
-			firstDetectionDate: new Date(2021, 11, 1),
-			lastUpdate: new Date(2021, 11, 2),
-			coordinates: [
-				[58.298666, 57.92472],
-				[59.308767, 57.814865],
-				[58.370757, 58.731094],
-				[58.430482, 58.759933],
-			],
-			danger: {
-				dangerClass: 'medium',
-				spillArea: '...',
-				dangerFactors: [{ id: 1, value: 'Близость от водных объектов' }],
-			},
-			status: 'inspection',
-			pipeOwner: 'Big Daddy',
-			objectFrom: 'aaaaa',
-			objectTo: 'bbbbb',
-			spillPhoto: '',
-		},
-		{
-			id: 3,
-			firstDetectionDate: new Date(2021, 11, 1),
-			lastUpdate: new Date(2021, 11, 2),
-			coordinates: [
-				[58.298666, 57.92472],
-				[59.308767, 57.814865],
-				[58.370757, 58.731094],
-				[58.430482, 58.759933],
-			],
-			danger: {
-				dangerClass: 'medium',
-				spillArea: '...',
-				dangerFactors: [{ id: 1, value: 'Близость от водных объектов' }],
-			},
-			status: 'approved',
-			pipeOwner: 'Big Daddy',
-			objectFrom: 'aaaaa',
-			objectTo: 'bbbbb',
-			spillPhoto: '',
-		},
-		{
-			id: 4,
-			firstDetectionDate: new Date(2021, 11, 1),
-			lastUpdate: new Date(2021, 11, 2),
-			coordinates: [
-				[58.298666, 57.92472],
-				[59.308767, 57.814865],
-				[58.370757, 58.731094],
-				[58.430482, 58.759933],
-			],
-			danger: {
-				dangerClass: 'medium',
-				spillArea: '...',
-				dangerFactors: [{ id: 1, value: 'Близость от водных объектов' }],
-			},
-			status: 'eliminated',
-			pipeOwner: 'Big Daddy',
-			objectFrom: 'aaaaa',
-			objectTo: 'bbbbb',
-			spillPhoto: '',
-		},
-		{
-			id: 5,
-			firstDetectionDate: new Date(2021, 11, 1),
-			lastUpdate: new Date(2021, 11, 2),
-			coordinates: [
-				[58.298666, 57.92472],
-				[59.308767, 57.814865],
-				[58.370757, 58.731094],
-				[58.430482, 58.759933],
-			],
-			danger: {
-				dangerClass: 'medium',
-				spillArea: '...',
-				dangerFactors: [{ id: 1, value: 'Близость от водных объектов' }],
-			},
-			status: 'unapproved',
-			pipeOwner: 'Big Daddy',
-			objectFrom: 'Верхнежопинск',
-			objectTo: 'Мухосранск',
-			spillPhoto: '',
-		},
-		{
-			id: 6,
-			firstDetectionDate: new Date(2021, 11, 1),
-			lastUpdate: new Date(2021, 11, 2),
-			coordinates: [
-				[58.298666, 57.92472],
-				[59.308767, 57.814865],
-				[58.370757, 58.731094],
-				[58.430482, 58.759933],
-			],
-			danger: {
-				dangerClass: 'medium',
-				spillArea: '...',
-				dangerFactors: [{ id: 1, value: 'Близость от водных объектов' }],
-			},
-			status: 'unapproved',
-			pipeOwner: 'Big Daddy',
-			objectFrom: 'aaaaa',
-			objectTo: 'bbbbb',
-			spillPhoto: '',
-		},
-		{
-			id: 7,
-			firstDetectionDate: new Date(2021, 11, 1),
-			lastUpdate: new Date(2021, 11, 2),
-			coordinates: [
-				[58.298666, 57.92472],
-				[59.308767, 57.814865],
-				[58.370757, 58.731094],
-				[58.430482, 58.759933],
-			],
-			danger: {
-				dangerClass: 'medium',
-				spillArea: '...',
-				dangerFactors: [{ id: 1, value: 'Близость от водных объектов' }],
-			},
-			status: 'unapproved',
-			pipeOwner: 'Big Daddy',
-			objectFrom: 'aaaaa',
-			objectTo: 'bbbbb',
-			spillPhoto: '',
-		},
-	]);
+	const dispatch = useAppDispatch();
+	const { incidents } = useSelector((state: RootState) => state);
 
 	const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -368,7 +221,7 @@ export default function IncidentsTable(): JSX.Element {
 	};
 
 	// Avoid a layout jump when reaching the last page with empty rows.
-	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
+	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - incidents.incidents.length) : 0;
 
 	return (
 		<Box sx={{ width: '99%', m: 0.5 }}>
@@ -383,10 +236,10 @@ export default function IncidentsTable(): JSX.Element {
 								console.log('...');
 							}}
 							onRequestSort={handleRequestSort}
-							rowCount={data.length}
+							rowCount={incidents.incidents.length}
 						/>
 						<TableBody>
-							{data.map((row, index) => (
+							{incidents.incidents.map((row, index) => (
 								<TableRow hover tabIndex={-1} key={index}>
 									<TableCell align='right'></TableCell>
 									<TableCell component='th' scope='row' padding='none'>
@@ -400,7 +253,11 @@ export default function IncidentsTable(): JSX.Element {
 										{row.objectFrom} - {row.objectTo}
 									</TableCell>
 									<TableCell align='right'>
-										<Button variant={'outlined'} size={'small'}>
+										<Button
+											variant={'outlined'}
+											size={'small'}
+											onClick={() => dispatch(setCurrentIncidentCoordinates(row.coordinates))}
+										>
 											на карте
 										</Button>
 									</TableCell>
