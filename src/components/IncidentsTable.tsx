@@ -27,9 +27,10 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import LoopIcon from '@mui/icons-material/Loop';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import '../App.css';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { IOilSpillIncident } from '../dto/IOilSpillIncident';
 import IncidentModal from './IncidentModal';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 	if (b[orderBy] < a[orderBy]) {
@@ -107,6 +108,12 @@ const headCells: readonly HeadCell[] = [
 		numeric: true,
 		disablePadding: false,
 		label: 'Связываемые объекты',
+	},
+	{
+		id: 'desc',
+		numeric: true,
+		disablePadding: false,
+		label: '',
 	},
 	{
 		id: 'location',
@@ -223,11 +230,14 @@ export default function IncidentsTable(): JSX.Element {
 	const { incidents } = useSelector((state: RootState) => state);
 	const [open, setOpen] = useState<boolean>(false);
 	const [currentIncident, setCurrentIncident] = useState<IOilSpillIncident>({} as IOilSpillIncident);
+	const rowRef = useRef(null);
 
-	const handleOpenModal = (incident: IOilSpillIncident) => {
+	const handleOpenModal = (incident: IOilSpillIncident, e: any) => {
 		setCurrentIncident(incident);
 		dispatch(setCurrentIncidentCoordinates(incident.coordinates));
-		setOpen(true);
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		if (rowRef.current && rowRef.current !== e.target) setOpen(true);
 	};
 
 	const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
@@ -269,13 +279,7 @@ export default function IncidentsTable(): JSX.Element {
 						/>
 						<TableBody>
 							{incidents.incidents.map((row, index) => (
-								<TableRow
-									hover
-									tabIndex={-1}
-									key={index}
-									sx={{ cursor: 'pointer' }}
-									onClick={() => handleOpenModal(row)}
-								>
+								<TableRow hover tabIndex={-1} key={index} sx={{ cursor: 'pointer' }}>
 									<TableCell align='right'></TableCell>
 									<TableCell component='th' scope='row' padding='none' width={'3%'}>
 										{getStatusIcon(row.status)}
@@ -304,10 +308,16 @@ export default function IncidentsTable(): JSX.Element {
 									<TableCell align='right'>
 										{row.objectFrom} - {row.objectTo}
 									</TableCell>
+									<TableCell align='right' width={'1%'}>
+										<IconButton ref={rowRef} onClick={(e) => handleOpenModal(row, e)}>
+											<MoreVertIcon />
+										</IconButton>
+									</TableCell>
 									<TableCell align='right' width={'3%'}>
 										<Button
 											variant={'outlined'}
 											size={'small'}
+											ref={rowRef}
 											onClick={() => dispatch(setCurrentIncidentCoordinates(row.coordinates))}
 										>
 											на карте

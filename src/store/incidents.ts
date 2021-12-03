@@ -31,10 +31,10 @@ export const getIncidents = createAsyncThunk<{ incidents: IOilSpillIncident[]; s
 const initState: IIncidentsState = {
 	currentIncidentCoordinates: [
 		[
-			[69.45397814, 87.92092548],
-			[69.45397814, 87.93225358],
-			[69.4598923, 87.93225358],
-			[69.4598923, 87.92092548],
+			[61.1870429, 77.73433595],
+			[61.1870429, 77.7456641],
+			[61.1929571, 77.7456641],
+			[61.1929571, 77.73433595],
 		],
 	],
 	incidents: [
@@ -63,8 +63,8 @@ const initState: IIncidentsState = {
 			},
 			status: 'approved',
 			pipeOwner: 'ООО «РН-Юганскнефтегаз»',
-			objectFrom: 'aaaaa',
-			objectTo: 'bbbbb',
+			objectFrom: 'ЦПС Ванкорского месторождения',
+			objectTo: 'НПС-1 (Ванкор - Пурпе)',
 		},
 		{
 			id: 2,
@@ -91,8 +91,8 @@ const initState: IIncidentsState = {
 			},
 			status: 'inspection',
 			pipeOwner: 'ООО «РН-Юганскнефтегаз»',
-			objectFrom: 'aaaaa',
-			objectTo: 'bbbbb',
+			objectFrom: 'ГНПС Заполярье',
+			objectTo: 'НПС-2 Ямал',
 		},
 		{
 			id: 3,
@@ -119,8 +119,8 @@ const initState: IIncidentsState = {
 			},
 			status: 'approved',
 			pipeOwner: 'АО «Самотлорнефтегаз»',
-			objectFrom: 'aaaaa',
-			objectTo: 'bbbbb',
+			objectFrom: 'ЛДПС Пурпе',
+			objectTo: 'НПС Вынгапур',
 		},
 		{
 			id: 4,
@@ -147,8 +147,8 @@ const initState: IIncidentsState = {
 			},
 			status: 'approved',
 			pipeOwner: 'АО "РН-Няганьнефтегаз"',
-			objectFrom: 'aaaaa',
-			objectTo: 'bbbbb',
+			objectFrom: 'НПС Суторминская',
+			objectTo: 'НПС Холмогоры',
 		},
 		{
 			id: 5,
@@ -175,8 +175,8 @@ const initState: IIncidentsState = {
 			},
 			status: 'approved',
 			pipeOwner: 'ООО "Тарховское"',
-			objectFrom: 'aaaaa',
-			objectTo: 'bbbbb',
+			objectFrom: 'ЛДПС Пурпе',
+			objectTo: 'НПС Вынгапур',
 		},
 		{
 			id: 6,
@@ -203,8 +203,8 @@ const initState: IIncidentsState = {
 			},
 			status: 'unapproved',
 			pipeOwner: 'АО "Томскнефть" ВНК',
-			objectFrom: 'aaaaa',
-			objectTo: 'bbbbb',
+			objectFrom: 'ЦПС Ванкорского месторождения',
+			objectTo: 'НПС-1 (Ванкор - Пурпе)',
 		},
 		{
 			id: 7,
@@ -231,8 +231,8 @@ const initState: IIncidentsState = {
 			},
 			status: 'inspection',
 			pipeOwner: 'АО "Томскнефть" ВНК',
-			objectFrom: 'aaaaa',
-			objectTo: 'bbbbb',
+			objectFrom: 'ГНПС Заполярье',
+			objectTo: 'НПС-2 Ямал',
 		},
 		{
 			id: 8,
@@ -246,10 +246,10 @@ const initState: IIncidentsState = {
 			],
 			coordinates: [
 				[
-					[61.3070429, 76.54433595],
-					[61.3070429, 76.5556641],
-					[61.3129571, 76.5556641],
-					[61.3129571, 76.54433595],
+					[61.1870429, 76.61433595],
+					[61.1870429, 76.6256641],
+					[61.1929571, 76.6256641],
+					[61.1929571, 76.61433595],
 				],
 			],
 			danger: {
@@ -260,8 +260,8 @@ const initState: IIncidentsState = {
 			},
 			status: 'approved',
 			pipeOwner: 'АО «Самотлорнефтегаз»',
-			objectFrom: 'aaaaa',
-			objectTo: 'bbbbb',
+			objectFrom: 'ЛДПС Пурпе',
+			objectTo: 'НПС Холмогоры',
 		},
 		{
 			id: 9,
@@ -288,8 +288,8 @@ const initState: IIncidentsState = {
 			},
 			status: 'approved',
 			pipeOwner: 'АО «Самотлорнефтегаз»',
-			objectFrom: 'aaaaa',
-			objectTo: 'bbbbb',
+			objectFrom: 'ГНПС Заполярье',
+			objectTo: 'НПС-2 Ямал',
 		},
 		{
 			id: 10,
@@ -316,8 +316,8 @@ const initState: IIncidentsState = {
 			},
 			status: 'approved',
 			pipeOwner: 'АО «Самотлорнефтегаз»',
-			objectFrom: 'aaaaa',
-			objectTo: 'bbbbb',
+			objectFrom: 'ГНПС Заполярье',
+			objectTo: 'НПС-2 Ямал',
 		},
 	],
 	status: '200',
