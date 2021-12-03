@@ -13,7 +13,7 @@ export const OilSpillsMap = (): JSX.Element => {
 
 	const mapState = {
 		center: incidents.currentIncidentCoordinates[0][0],
-		zoom: 10,
+		zoom: 14,
 		behaviors: ['default', 'scrollZoom'],
 	};
 
@@ -43,7 +43,7 @@ export const OilSpillsMap = (): JSX.Element => {
 							geometry={incidents.currentIncidentCoordinates}
 							options={{
 								fillColor: '#da5b5b',
-								strokeColor: '#0000FF',
+								strokeColor: '#ff0000',
 								opacity: 0.4,
 								strokeWidth: 4,
 							}}

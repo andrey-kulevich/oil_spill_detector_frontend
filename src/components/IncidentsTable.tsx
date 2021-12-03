@@ -22,6 +22,14 @@ import { Button } from '@mui/material';
 import { RootState, useAppDispatch } from '../store/store';
 import { useSelector } from 'react-redux';
 import { setCurrentIncidentCoordinates } from '../store/incidents';
+import NewReleasesIcon from '@mui/icons-material/NewReleases';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import LoopIcon from '@mui/icons-material/Loop';
+import FiberNewIcon from '@mui/icons-material/FiberNew';
+import '../App.css';
+import { useState } from 'react';
+import { IOilSpillIncident } from '../dto/IOilSpillIncident';
+import IncidentModal from './IncidentModal';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 	if (b[orderBy] < a[orderBy]) {
@@ -213,6 +221,14 @@ export default function IncidentsTable(): JSX.Element {
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 	const dispatch = useAppDispatch();
 	const { incidents } = useSelector((state: RootState) => state);
+	const [open, setOpen] = useState<boolean>(false);
+	const [currentIncident, setCurrentIncident] = useState<IOilSpillIncident>({} as IOilSpillIncident);
+
+	const handleOpenModal = (incident: IOilSpillIncident) => {
+		setCurrentIncident(incident);
+		dispatch(setCurrentIncidentCoordinates(incident.coordinates));
+		setOpen(true);
+	};
 
 	const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -223,10 +239,23 @@ export default function IncidentsTable(): JSX.Element {
 	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - incidents.incidents.length) : 0;
 
+	const getStatusIcon = (status: 'unapproved' | 'inspection' | 'approved' | 'eliminated') => {
+		switch (status) {
+			case 'unapproved':
+				return <FiberNewIcon color={'secondary'} />;
+			case 'approved':
+				return <NewReleasesIcon color={'error'} />;
+			case 'inspection':
+				return <LoopIcon color={'primary'} className={'rotation'} />;
+			case 'eliminated':
+				return <CheckCircleIcon color={'success'} />;
+		}
+	};
+
 	return (
 		<Box sx={{ width: '99%', m: 0.5 }}>
 			<Paper sx={{ width: '100%' }} variant={'outlined'}>
-				<TableContainer sx={{ maxHeight: '50vh' }}>
+				<TableContainer sx={{ maxHeight: '47vh' }}>
 					<Table stickyHeader sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'small'}>
 						<EnhancedTableHead
 							numSelected={0}
@@ -240,19 +269,42 @@ export default function IncidentsTable(): JSX.Element {
 						/>
 						<TableBody>
 							{incidents.incidents.map((row, index) => (
-								<TableRow hover tabIndex={-1} key={index}>
+								<TableRow
+									hover
+									tabIndex={-1}
+									key={index}
+									sx={{ cursor: 'pointer' }}
+									onClick={() => handleOpenModal(row)}
+								>
 									<TableCell align='right'></TableCell>
-									<TableCell component='th' scope='row' padding='none'>
-										{row.status}
+									<TableCell component='th' scope='row' padding='none' width={'3%'}>
+										{getStatusIcon(row.status)}
 									</TableCell>
-									<TableCell align='right'>{row.danger.dangerClass}</TableCell>
-									<TableCell align='right'>{dateToString(row.firstDetectionDate)}</TableCell>
-									<TableCell align='right'>{dateToString(row.lastUpdate)}</TableCell>
+									<TableCell
+										align='right'
+										width={'3%'}
+										sx={{
+											color:
+												row.danger.dangerClass === 'medium'
+													? 'rgb(255,190,0)'
+													: row.danger.dangerClass === 'high'
+													? 'rgb(248,3,3)'
+													: '#000000',
+										}}
+									>
+										{row.danger.dangerClass}
+									</TableCell>
+									<TableCell align='right' width={'13%'}>
+										{dateToString(row.firstDetectionDate)}
+									</TableCell>
+									<TableCell align='right' width={'18%'}>
+										{dateToString(row.detectionHistory[row.detectionHistory.length - 1].lastUpdate)}
+									</TableCell>
 									<TableCell align='right'>{row.pipeOwner}</TableCell>
 									<TableCell align='right'>
 										{row.objectFrom} - {row.objectTo}
 									</TableCell>
-									<TableCell align='right'>
+									<TableCell align='right' width={'3%'}>
 										<Button
 											variant={'outlined'}
 											size={'small'}
@@ -276,6 +328,7 @@ export default function IncidentsTable(): JSX.Element {
 					</Table>
 				</TableContainer>
 			</Paper>
+			<IncidentModal open={open} setOpen={setOpen} incident={currentIncident} />
 		</Box>
 	);
 }
