@@ -18,7 +18,7 @@ export const OilSpillsMap = (): JSX.Element => {
 	};
 
 	return (
-		<Box sx={{ width: '65%', m: 0.5 }}>
+		<Box sx={{ width: '77.5%', m: 0.5 }}>
 			<Paper sx={{ width: '100%' }} variant={'outlined'}>
 				<YMaps>
 					<Map state={mapState} height='50vh' width='100%'>
